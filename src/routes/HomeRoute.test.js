@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { setupServer } from "msw/node";
 import { rest } from "msw";
 import { MemoryRouter } from "react-router";
-import { HomeRoute } from "./HomeRoute";
+import HomeRoute from "./HomeRoute";
 
 // STEP 2 of MSW Setup:
 // we first take a look at our request in chrome to see to what
@@ -46,4 +46,19 @@ afterEach(() => {
 afterAll(() => {
   // runs after all tests in this file
   server.close();
+});
+
+test("renders two links for each language", async () => {
+  render(
+    <MemoryRouter>
+      <HomeRoute />
+    </MemoryRouter>
+  );
+
+  // with this below, we won't see any links for each item and that is because
+  // we are faking the request with MSW but we're not waiting for the answer at all
+  screen.debug();
+
+  // we are going to loop over languages, for each of them make sure
+  // we see two links and Assert that the links have the appropriate full_name
 });
