@@ -38,8 +38,16 @@ test("renders two links for each language", async () => {
     </MemoryRouter>
   );
 
-  await pause();
-  screen.debug();
+  const languages = ["c#", "python", "javascript", "typescript", "go", "rust"];
+  for (let lg in languages) {
+    // point: remeber we are using findAll... to handle act warnings
+    const links = await screen.findAllByRole("link", {
+      name: new RegExp(languages[lg]),
+    });
+    expect(links).toHaveLength(2);
+    expect(links[0]).toHaveTextContent(`${languages[lg]}_one`);
+    expect(links[1]).toHaveTextContent(`${languages[lg]}_two`);
+  }
 });
 
 const pause = () => {
